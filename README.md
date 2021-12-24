@@ -2,7 +2,7 @@
 
 ## SMS-SDK
 
-![arch](./arch.png)
+![arch](./doc/arch.png?raw=true)
 
 
 
