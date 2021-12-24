@@ -1,0 +1,36 @@
+@startuml
+
+interface Sms {
+  sendSms(phone, message)
+  sendCaptcha(phone, operation, code?)
+  verifyCaptcha(phone, operation, code)
+}
+
+class AbstractSms implements Sms
+
+class VanusSms extends AbstractSms {
+
+}
+
+class AliyunSms extends AbstractSms
+
+interface SmsConfig
+
+class VanusSmsConfig implements SmsConfig
+
+class AliyunSmsConfig implements SmsConfig
+
+
+interface Store {
+  save(key, value)
+  read(key)
+}
+
+class MemoryStore implements Store
+
+class RedisStore implements Store
+
+AbstractSms -> SmsConfig
+Store <- AbstractSms
+
+@enduml
