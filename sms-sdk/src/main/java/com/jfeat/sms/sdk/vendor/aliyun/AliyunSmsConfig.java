@@ -10,7 +10,8 @@ import com.jfeat.sms.sdk.SmsConfig;
  *     "signName": "sign",
  *     "templateCode": "t001",
  *     "templateParam": "{\"code\": \"%s\"}",
- *     "ttl": 60
+ *     "captchaTtlSeconds": 60,
+ *     "captchaCount": 4
  * }
  * @author jackyhuang
  * @date 2021/12/23

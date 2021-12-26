@@ -10,7 +10,8 @@ import com.jfeat.sms.sdk.SmsConfig;
  *     "account": "theaccount",
  *     "password": "pwd",
  *     "captchaTemplate": "code is %s, valid in 1 minute.",
- *     "ttl": 60
+ *     "captchaTtlSeconds": 60,
+ *     "captchaCount": 4
  * }
  *
  * @author jackyhuang

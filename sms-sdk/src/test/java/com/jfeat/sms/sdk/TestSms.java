@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.junit.Assert.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author jackyhuang
@@ -50,6 +52,23 @@ public class TestSms {
         config.setUrl(baseUrl + "/vanusSms");
         config.setUserId("user1");
         Sms sms = new VanusSms(config);
+
+        sms.sendCaptcha("13800000000", "Register");
+        String code = MemoryStore.me().read("13800000000-Register");
+        logger.debug("code=" + code);
+        assertNotNull(code);
+    }
+
+    @Test
+    public void testVanusSmsFactory() {
+        server.enqueue(new MockResponse().setResponseCode(200));
+
+        Map<String, String> configMap = new HashMap<>();
+        configMap.put("account", "account1");
+        configMap.put("password", "pwd1");
+        configMap.put("userId", "uid");
+        configMap.put("url", baseUrl + "/vanusSms");
+        Sms sms = SmsFactory.me().getSms("vanus", configMap);
 
         sms.sendCaptcha("13800000000", "Register");
         String code = MemoryStore.me().read("13800000000-Register");
