@@ -18,4 +18,10 @@ public interface SmsConfig {
      * @return
      */
     int getCaptchaTtlSeconds();
+
+    /**
+     * 随机验证码的长度，默认4位
+     * @return
+     */
+    int getCaptchaCount();
 }

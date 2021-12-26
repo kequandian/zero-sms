@@ -31,7 +31,9 @@ public class AliyunSmsConfig implements SmsConfig {
      */
     private String templateParam;
 
-    private int ttl = 60;
+    private int captchaCount = 4;
+
+    private int captchaTtlSeconds = 60;
 
     public String getTemplateCode() {
         return templateCode;
@@ -88,11 +90,20 @@ public class AliyunSmsConfig implements SmsConfig {
     }
 
     @Override
-    public int getCaptchaTtlSeconds() {
-        return ttl;
+    public int getCaptchaCount() {
+        return captchaCount;
     }
 
-    public void setTtl(int ttl) {
-        this.ttl = ttl;
+    public void setCaptchaCount(int captchaCount) {
+        this.captchaCount = captchaCount;
+    }
+
+    @Override
+    public int getCaptchaTtlSeconds() {
+        return captchaTtlSeconds;
+    }
+
+    public void setCaptchaTtlSeconds(int captchaTtlSeconds) {
+        this.captchaTtlSeconds = captchaTtlSeconds;
     }
 }

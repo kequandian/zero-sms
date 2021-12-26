@@ -80,6 +80,6 @@ public abstract class AbstractSms implements Sms {
     }
 
     private String generateCaptcha() {
-        return RandomStringUtils.randomNumeric(4);
+        return RandomStringUtils.randomNumeric(config.getCaptchaCount());
     }
 }
