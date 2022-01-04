@@ -1,6 +1,7 @@
 ################### sms config ##################
 io:
   sms:
+    environment: dev  # ["dev","development","prod","production"]: default prod
     captchaRequiredOperations:
       - login
       #- register
