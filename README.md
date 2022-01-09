@@ -116,7 +116,7 @@ GET /api/captcha/v1/code
 在使用验证码的方法上通过该uuid把验证码通过header带上
 
 ```
-x-captcha-uuid: <uuid>
+x-captcha-code-uuid: <uuid>
 x-captcha-code: <code>
 ```
 
