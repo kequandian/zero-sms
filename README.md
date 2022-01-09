@@ -124,3 +124,10 @@ x-captcha-code: <code>
 
 `@Captcha` 用于需要进行图形验证码的方法，处理该注解的方法里面会验证header传入的code与系统保存的code做对比，一致的话就继续执行后续代码，否则返回错误。
 
+* 获取验证码
+
+![cpatcha-req](./doc/captcha-req.png?raw=true)
+
+* 使用验证码
+
+![cpatcha](./doc/captcha.png?raw=true)
