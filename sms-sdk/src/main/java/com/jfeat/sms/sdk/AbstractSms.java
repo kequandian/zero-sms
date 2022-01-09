@@ -1,6 +1,7 @@
 package com.jfeat.sms.sdk;
 
-import com.jfeat.sms.sdk.store.MemoryStore;
+import com.jfeat.code.store.MemoryStore;
+import com.jfeat.code.store.Store;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

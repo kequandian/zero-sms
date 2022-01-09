@@ -1,6 +1,5 @@
-package com.jfeat.sms.sdk.store;
+package com.jfeat.code.store;
 
-import com.jfeat.sms.sdk.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

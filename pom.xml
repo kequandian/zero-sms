@@ -11,6 +11,8 @@
     <modules>
         <module>sms-sdk</module>
         <module>sms-boot</module>
+        <module>captcha-sdk</module>
+        <module>code-store</module>
     </modules>
 
     <distributionManagement>

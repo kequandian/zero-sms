@@ -1,6 +1,6 @@
 package com.jfeat.sms.sdk;
 
-import com.jfeat.sms.sdk.store.MemoryStore;
+import com.jfeat.code.store.MemoryStore;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSms;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSmsConfig;
 import com.jfeat.sms.sdk.vendor.vanus.VanusSms;
