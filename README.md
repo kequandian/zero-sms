@@ -107,11 +107,16 @@ io:
 
 GET /api/captcha/v1/code
 
-返回一个图片，图片里面上验证码
+返回一个图片base64
 
-同时在header里带上 uuid 作为验证时unique ID用。
+同时里带上 uuid 作为验证时unique ID用。
 
-`x-captcha-code-uuid`
+```
+{
+    "uuid": "a312c8b042664ffe954d6fea1f19cbb3",
+    "base64Data": "data:image/png;base64,/9j/4AAQSkZJRg....."
+}
+```
 
 在使用验证码的方法上通过该uuid把验证码通过header带上
 
@@ -120,14 +125,9 @@ x-captcha-code-uuid: <uuid>
 x-captcha-code: <code>
 ```
 
+![cpatcha](./doc/captcha.png?raw=true)
+
 #### 注解 
 
 `@Captcha` 用于需要进行图形验证码的方法，处理该注解的方法里面会验证header传入的code与系统保存的code做对比，一致的话就继续执行后续代码，否则返回错误。
 
-* 获取验证码
-
-![cpatcha-req](./doc/captcha-req.png?raw=true)
-
-* 使用验证码
-
-![cpatcha](./doc/captcha.png?raw=true)
