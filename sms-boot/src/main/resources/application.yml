@@ -18,9 +18,10 @@ io:
       aliyun:
         accessKeyId: keyid
         accessSecret: secret
-        signName: aliyun
-        templateParam: {"code": "%s"}
-        templateCode: T1
         captchaCount: 5
         captchaTtlSeconds: 120
-        
+        templates:
+          - operation: login
+            signName: aliyun
+            templateParam: '{"code": "%s"}'
+            templateCode: T1

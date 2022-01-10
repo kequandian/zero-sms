@@ -3,6 +3,7 @@ package com.jfeat.sms.sdk;
 import com.jfeat.code.store.MemoryStore;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSms;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSmsConfig;
+import com.jfeat.sms.sdk.vendor.aliyun.SmsTemplate;
 import com.jfeat.sms.sdk.vendor.vanus.VanusSms;
 import com.jfeat.sms.sdk.vendor.vanus.VanusSmsConfig;
 import okhttp3.mockwebserver.MockResponse;
@@ -15,7 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.junit.Assert.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,8 +56,8 @@ public class TestSms {
         config.setUserId("user1");
         Sms sms = new VanusSms(config);
 
-        sms.sendCaptcha("13800000000", "Register");
-        String code = MemoryStore.me().read("13800000000-Register");
+        sms.sendCaptcha("13800000000", "register");
+        String code = MemoryStore.me().read("13800000000-register");
         logger.debug("code=" + code);
         assertNotNull(code);
     }
@@ -63,7 +66,7 @@ public class TestSms {
     public void testVanusSmsFactory() {
         server.enqueue(new MockResponse().setResponseCode(200));
 
-        Map<String, String> configMap = new HashMap<>();
+        Map<String, Object> configMap = new HashMap<>();
         configMap.put("account", "account1");
         configMap.put("password", "pwd1");
         configMap.put("userId", "uid");
@@ -76,6 +79,30 @@ public class TestSms {
         assertNotNull(code);
     }
 
+    @Ignore
+    @Test
+    public void testAliyunSmsFactory() {
+        server.enqueue(new MockResponse().setResponseCode(200));
+
+        Map<String, Object> configMap = new HashMap<>();
+        configMap.put("accessKeyId", "account1");
+        configMap.put("accessSecret", "pwd1");
+        configMap.put("captchaCount", "8");
+        Map<String, Object> templates = new HashMap<>();
+        Map<String, String> regTemplate = new HashMap<>();
+        regTemplate.put("SignName", "SignName1");
+        regTemplate.put("templateCode", "t1");
+        regTemplate.put("templateParam", "para");
+        templates.put("register", regTemplate);
+        configMap.put("templates", templates);
+        Sms sms = SmsFactory.me().getSms("aliyun", configMap);
+
+        sms.sendCaptcha("13800000000", "register");
+        String code = MemoryStore.me().read("13800000000-register");
+        logger.debug("code=" + code);
+        assertNotNull(code);
+    }
+
     @Test
     @Ignore
     public void testAliyunSms() {
@@ -84,13 +111,18 @@ public class TestSms {
         AliyunSmsConfig config = new AliyunSmsConfig();
         config.setAccessKeyId("accesskey");
         config.setAccessSecret("accesssecret");
-        config.setSignName("SignName");
-        config.setTemplateCode("TempCode");
-        config.setTemplateParam("");
+        SmsTemplate template = new SmsTemplate();
+        template.setOperation("register");
+        template.setSignName("SignName");
+        template.setTemplateCode("TempCode");
+        template.setTemplateParam("");
+        List<SmsTemplate> templates = new ArrayList<>();
+        templates.add(template);
+        config.setTemplates(templates);
         Sms sms = new AliyunSms(config);
 
-        sms.sendCaptcha("13800000000", "Register");
-        String code = MemoryStore.me().read("13800000000-Register");
+        sms.sendCaptcha("13800000000", "register");
+        String code = MemoryStore.me().read("13800000000-register");
         logger.debug("code=" + code);
         assertNotNull(code);
     }

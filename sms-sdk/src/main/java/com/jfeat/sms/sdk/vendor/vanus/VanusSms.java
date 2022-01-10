@@ -23,7 +23,7 @@ public class VanusSms extends AbstractSms {
     }
 
     @Override
-    public void sendMessage(String phone, String message) {
+    public void sendMessage(String phone, String operation, String message) {
         logger.debug("sendMessage: phone={}, message={}", phone, message);
         List<RequestParameter> params = new ArrayList<>();
         params.add(new RequestParameter("action", action));

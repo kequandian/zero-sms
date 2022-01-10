@@ -6,7 +6,7 @@ package com.jfeat.sms.sdk;
  */
 public interface Sms {
 
-    void sendMessage(String phone, String message);
+    void sendMessage(String phone, String operation, String message);
 
     void sendCaptcha(String phone, String operation);
 

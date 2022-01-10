@@ -20,15 +20,44 @@ sms.sendCaptcha(req.getPhone(), req.getOperation());
 
 或者使用工厂方法, 推荐使用这个方法：
 ```java
-Map<String, String> configMap = new HashMap<>();
+Map<String, Object> configMap = new HashMap<>();
 configMap.put("account", "account1");
 configMap.put("password", "pwd1");
 configMap.put("userId", "uid");
-configMap.put("url", "http://127.0.0.1:8080/vanusSms");
+configMap.put("url", baseUrl + "/vanusSms");
 Sms sms = SmsFactory.me().getSms("vanus", configMap);
 sms.sendCaptcha("1380000000", "register");
 ```
 
+```yaml
+
+io:
+  sms:
+    environment: dev  # ["dev","development","prod","production"]: default prod
+    captchaRequiredOperations:
+      - login
+      #- register
+    enableVendor: vanus
+    vendors:
+      vanus:
+        account: account1
+        password: password1
+        userId: userid1
+        url: http://127.0.0.1:8080/dummyVanusSms
+        captchaTemplate: code is %s, valid in 2 minutes.
+        captchaCount: 5
+        captchaTtlSeconds: 120
+      aliyun:
+        accessKeyId: keyid
+        accessSecret: secret
+        captchaCount: 5
+        captchaTtlSeconds: 120
+        templates:
+          - operation: login
+            signName: aliyun
+            templateParam: '{"code": "%s"}'
+            templateCode: T1
+```
 
 ### 如何扩展
 

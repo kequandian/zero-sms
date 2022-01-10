@@ -8,6 +8,9 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.jfeat.sms.sdk.AbstractSms;
+import com.jfeat.sms.sdk.SmsException;
+
+import java.util.Optional;
 
 /**
  * @author jackyhuang
@@ -32,6 +35,7 @@ public class AliyunSms extends AbstractSms {
     private String action = "SendSms";
 
     public AliyunSms(AliyunSmsConfig config) {
+        super(config);
         this.config = config;
     }
 
@@ -41,20 +45,21 @@ public class AliyunSms extends AbstractSms {
      * @param message 插入到消息模版里面的消息体，要和templateParam的参数对应
      */
     @Override
-    public void sendMessage(String phone, String message) {
+    public void sendMessage(String phone, String operation, String message) {
         logger.debug("sendMessage: phone={}, message={}", phone, message);
         DefaultProfile profile = DefaultProfile.getProfile(regionId, config.getAccessKeyId(), config.getAccessSecret());
         IAcsClient client = new DefaultAcsClient(profile);
 
+        SmsTemplate template = this.getTemplate(operation);
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);
         request.setSysDomain(domain);
         request.setSysVersion(version);
         request.setSysAction(action);
         request.putQueryParameter("PhoneNumbers", phone);
-        request.putQueryParameter("SignName", config.getSignName());
-        request.putQueryParameter("TemplateCode", config.getTemplateCode());
-        request.putQueryParameter("TemplateParam", formatTemplateParam(message));
+        request.putQueryParameter("SignName", template.getSignName());
+        request.putQueryParameter("TemplateCode", template.getTemplateCode());
+        request.putQueryParameter("TemplateParam", formatTemplateParam(operation, message));
         try {
             CommonResponse response = client.getCommonResponse(request);
             logger.debug("response: {}", response.getData());
@@ -63,9 +68,21 @@ public class AliyunSms extends AbstractSms {
         }
     }
 
-    private String formatTemplateParam(String code) {
-        if (config.getTemplateParam() != null) {
-            return String.format(config.getTemplateParam(), code);
+    private SmsTemplate getTemplate(String operation) {
+        Optional<SmsTemplate> templateOpt = config.getTemplates().stream()
+                .filter(x -> x.getOperation().equalsIgnoreCase(operation))
+                .findFirst();
+        if (!templateOpt.isPresent()) {
+            throw new SmsException("Template not found");
+        }
+
+        return templateOpt.get();
+    }
+
+    private String formatTemplateParam(String operation, String code) {
+        SmsTemplate template = this.getTemplate(operation);
+        if (template.getTemplateParam() != null) {
+            return String.format(template.getTemplateParam(), code);
         }
         return "";
     }
