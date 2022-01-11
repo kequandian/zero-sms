@@ -34,6 +34,12 @@ public class SmsController {
         getSms().sendCaptcha(req.getPhone(), req.getOperation());
     }
 
+    @PostMapping("/api/u/sms/v1/captcha")
+    public void captchaUserEnd(@RequestBody CaptchaRequest req) {
+        logger.debug("captcha: " + req);
+        getSms().sendCaptcha(req.getPhone(), req.getOperation());
+    }
+
     /**
      * 应用层应该根据verify结果进行业务的处理。
      * @param req
@@ -41,6 +47,12 @@ public class SmsController {
      */
     @PostMapping("/api/sms/v1/verify")
     public boolean verify(@RequestBody CaptchaRequest req) {
+        logger.debug("verify: " + req);
+        return getSms().verifyCaptcha(req.getPhone(), req.getOperation(), req.getCode());
+    }
+
+    @PostMapping("/api/u/sms/v1/verify")
+    public boolean verifyUserEnd(@RequestBody CaptchaRequest req) {
         logger.debug("verify: " + req);
         return getSms().verifyCaptcha(req.getPhone(), req.getOperation(), req.getCode());
     }
