@@ -1,0 +1,27 @@
+################### sms config ##################
+io:
+  sms:
+    environment: dev  # ["dev","development","prod","production"]: default prod
+    captchaRequiredOperations:
+      - login
+      #- register
+    enableVendor: vanus
+    vendors:
+      vanus:
+        account: account1
+        password: password1
+        userId: userid1
+        url: http://127.0.0.1:8080/dummyVanusSms
+        captchaTemplate: code is %s, valid in 2 minutes.
+        captchaCount: 5
+        captchaTtlSeconds: 120
+      aliyun:
+        accessKeyId: keyid
+        accessSecret: secret
+        captchaCount: 5
+        captchaTtlSeconds: 120
+        templates:
+          - operation: login
+            signName: aliyun
+            templateParam: '{"code": "%s"}'
+            templateCode: T1

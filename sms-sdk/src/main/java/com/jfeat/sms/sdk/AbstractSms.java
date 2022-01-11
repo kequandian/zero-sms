@@ -1,6 +1,7 @@
 package com.jfeat.sms.sdk;
 
-import com.jfeat.sms.sdk.store.MemoryStore;
+import com.jfeat.code.store.MemoryStore;
+import com.jfeat.code.store.Store;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public abstract class AbstractSms implements Sms {
     }
 
     public SmsConfig getConfig() {
-        return config;
+        return this.config;
     }
 
     public void setConfig(SmsConfig config) {
@@ -40,7 +41,7 @@ public abstract class AbstractSms implements Sms {
     }
 
     public Store getStore() {
-        return store;
+        return this.store;
     }
 
     public void setStore(Store store) {
@@ -49,26 +50,26 @@ public abstract class AbstractSms implements Sms {
 
     @Override
     public void sendCaptcha(String phone, String operation) {
-        sendCaptcha(phone, operation, generateCaptcha());
+        sendCaptcha(phone, operation, this.generateCaptcha());
     }
 
     @Override
     public void sendCaptcha(String phone, String operation, String code) {
         logger.debug("sendCaptcha: phone={}, operation={}, code={}", phone, operation, code);
-        int ttl = config.getCaptchaTtlSeconds();
-        store.save(getKey(phone, operation), code, ttl);
-        String message = StringUtils.isEmpty(config.getCaptchaTemplate()) ?
-                code : String.format(config.getCaptchaTemplate(), code);
-        sendMessage(phone, message);
+        int ttl = this.config.getCaptchaTtlSeconds();
+        this.store.save(getKey(phone, operation), code, ttl);
+        String message = StringUtils.isEmpty(this.config.getCaptchaTemplate()) ?
+                code : String.format(this.config.getCaptchaTemplate(), code);
+        sendMessage(phone, operation, message);
     }
 
     @Override
     public boolean verifyCaptcha(String phone, String operation, String code) {
         logger.debug("verifyCaptcha: phone={}, operation={}, code={}", phone, operation, code);
-        String storedCode = store.read(getKey(phone, operation));
+        String storedCode = this.store.read(getKey(phone, operation));
         if (StringUtils.compare(storedCode, code) == 0) {
             logger.debug("verify passed.");
-            store.delete(getKey(phone, operation));
+            this.store.delete(getKey(phone, operation));
             return true;
         }
         logger.debug("verify failed.");
@@ -80,6 +81,6 @@ public abstract class AbstractSms implements Sms {
     }
 
     private String generateCaptcha() {
-        return RandomStringUtils.randomNumeric(config.getCaptchaCount());
+        return RandomStringUtils.randomNumeric(this.config.getCaptchaCount());
     }
 }

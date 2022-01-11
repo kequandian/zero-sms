@@ -1,6 +1,4 @@
-package com.jfeat.sms.sdk.store;
-
-import com.jfeat.sms.sdk.Store;
+package com.jfeat.code.store;
 
 /**
  * TODO implement it

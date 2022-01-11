@@ -2,6 +2,11 @@ package com.jfeat.sms.sdk.vendor.aliyun;
 
 import com.jfeat.sms.sdk.SmsConfig;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * example:
  * {
@@ -19,50 +24,18 @@ import com.jfeat.sms.sdk.SmsConfig;
 public class AliyunSmsConfig implements SmsConfig {
     private String accessKeyId;
     private String accessSecret;
-    /**
-     * 短信签名名称
-     */
-    private String signName;
-    /**
-     * 短信模板ID
-     */
-    private String templateCode;
-    /**
-     * 短信模板变量对应的实际值
-     */
-    private String templateParam;
+    private List<SmsTemplate> templates = new ArrayList<>();
 
     private int captchaCount = 4;
 
     private int captchaTtlSeconds = 60;
 
-    public String getTemplateCode() {
-        return templateCode;
+    public List<SmsTemplate> getTemplates() {
+        return templates;
     }
 
-    public void setTemplateCode(String templateCode) {
-        this.templateCode = templateCode;
-    }
-
-    /**
-     * code是短信模版定义的字段，使用%s给真实的code进行替换
-     * "{\"code\": \"%s\"}"
-     * @return
-     */
-    public String getTemplateParam() {
-        return templateParam;
-    }
-
-    public void setTemplateParam(String templateParam) {
-        this.templateParam = templateParam;
-    }
-
-    public String getSignName() {
-        return signName;
-    }
-
-    public void setSignName(String signName) {
-        this.signName = signName;
+    public void setTemplates(List<SmsTemplate> templates) {
+        this.templates = templates;
     }
 
     public String getAccessKeyId() {

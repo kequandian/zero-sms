@@ -1,0 +1,9 @@
+################### captcha config ##################
+io:
+  captcha:
+    enabled: true
+    uuidHeaderName: x-captcha-code-uuid
+    codeHeaderName: x-captcha-code
+    type: 0 # 0: numeric, 1: alphabetic, 2: alphanumeric
+    codeLength: 5
+    ttlSeconds: 60
