@@ -129,8 +129,8 @@ public class TestSms {
         server.enqueue(new MockResponse().setResponseCode(200));
 
         AliyunSmsConfig config = new AliyunSmsConfig();
-        config.setAccessKeyId("LTAIfYAV2iAxd7ig");
-        config.setAccessSecret("Bp8mz9h7KGJ4MVcrK0pBR1sdDrwRJr");
+        config.setAccessKeyId("");
+        config.setAccessSecret("");
         SmsTemplate template = new SmsTemplate();
         template.setOperation("register");
         template.setSignName("SmallSaaS");
