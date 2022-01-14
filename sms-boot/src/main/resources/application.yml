@@ -7,21 +7,27 @@ io:
       #- register
     enableVendor: vanus
     vendors:
-      vanus:
+      venus:
+        captchaCount: 5
+        captchaTtlSeconds: 120
+        templates:
+          - operation: login
+            signName: 'venus not use this field'
+            templateContent: 'Your code is {code}, valid in 2 minutes.'
+            templateParam: '{"code": "%s"}'
+            templateCode: 'venus not use this field'
         account: account1
         password: password1
         userId: userid1
         url: http://127.0.0.1:8080/dummyVanusSms
-        captchaTemplate: code is %s, valid in 2 minutes.
-        captchaCount: 5
-        captchaTtlSeconds: 120
       aliyun:
-        accessKeyId: keyid
-        accessSecret: secret
         captchaCount: 5
         captchaTtlSeconds: 120
         templates:
           - operation: login
             signName: aliyun
+            templateContent: 'aliyun not use this field'
             templateParam: '{"code": "%s"}'
             templateCode: T1
+        accessKeyId: keyid
+        accessSecret: secret

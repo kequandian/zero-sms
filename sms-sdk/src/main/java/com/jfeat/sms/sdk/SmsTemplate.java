@@ -1,4 +1,4 @@
-package com.jfeat.sms.sdk.vendor.aliyun;
+package com.jfeat.sms.sdk;
 
 /**
  * @author jackyhuang
@@ -14,6 +14,11 @@ public class SmsTemplate {
      */
     private String signName;
     /**
+     * 短信模版内容, 替换的内容用{}
+     * 如：你的验证码是 {code}, 有效期2分钟。
+     */
+    private String templateContent;
+    /**
      * 短信模板ID
      */
     private String templateCode;
@@ -26,6 +31,14 @@ public class SmsTemplate {
 
     public String getOperation() {
         return operation;
+    }
+
+    public String getTemplateContent() {
+        return templateContent;
+    }
+
+    public void setTemplateContent(String templateContent) {
+        this.templateContent = templateContent;
     }
 
     public void setOperation(String operation) {

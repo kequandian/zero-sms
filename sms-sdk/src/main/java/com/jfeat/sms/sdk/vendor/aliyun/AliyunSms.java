@@ -9,6 +9,7 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.jfeat.sms.sdk.AbstractSms;
 import com.jfeat.sms.sdk.SmsException;
+import com.jfeat.sms.sdk.SmsTemplate;
 
 import java.util.Optional;
 
@@ -42,15 +43,15 @@ public class AliyunSms extends AbstractSms {
     /**
      *
      * @param phone 接收短信的手机号码
-     * @param message 插入到消息模版里面的消息体，要和templateParam的参数对应
+     * @param code 短信验证码
+     * @param template 短信模版
      */
     @Override
-    public void sendMessage(String phone, String operation, String message) {
-        logger.debug("sendMessage: phone={}, message={}", phone, message);
+    public void sendMessage(String phone, String code, SmsTemplate template) {
+        logger.debug("sendMessage: phone={}, code={}", phone, code);
         DefaultProfile profile = DefaultProfile.getProfile(regionId, config.getAccessKeyId(), config.getAccessSecret());
         IAcsClient client = new DefaultAcsClient(profile);
 
-        SmsTemplate template = this.getTemplate(operation);
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);
         request.setSysDomain(domain);
@@ -59,7 +60,7 @@ public class AliyunSms extends AbstractSms {
         request.putQueryParameter("PhoneNumbers", phone);
         request.putQueryParameter("SignName", template.getSignName());
         request.putQueryParameter("TemplateCode", template.getTemplateCode());
-        request.putQueryParameter("TemplateParam", formatTemplateParam(operation, message));
+        request.putQueryParameter("TemplateParam", formatTemplateParam(template, code));
         try {
             CommonResponse response = client.getCommonResponse(request);
             logger.debug("response: {}", response.getData());
@@ -68,22 +69,5 @@ public class AliyunSms extends AbstractSms {
         }
     }
 
-    private SmsTemplate getTemplate(String operation) {
-        Optional<SmsTemplate> templateOpt = config.getTemplates().stream()
-                .filter(x -> x.getOperation().equalsIgnoreCase(operation))
-                .findFirst();
-        if (!templateOpt.isPresent()) {
-            throw new SmsException("Template not found");
-        }
 
-        return templateOpt.get();
-    }
-
-    private String formatTemplateParam(String operation, String code) {
-        SmsTemplate template = this.getTemplate(operation);
-        if (template.getTemplateParam() != null) {
-            return String.format(template.getTemplateParam(), code);
-        }
-        return "";
-    }
 }

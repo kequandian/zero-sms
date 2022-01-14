@@ -1,11 +1,11 @@
 package com.jfeat.sms.sdk;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfeat.code.store.MemoryStore;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSms;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSmsConfig;
-import com.jfeat.sms.sdk.vendor.aliyun.SmsTemplate;
-import com.jfeat.sms.sdk.vendor.vanus.VanusSms;
-import com.jfeat.sms.sdk.vendor.vanus.VanusSmsConfig;
+import com.jfeat.sms.sdk.vendor.venus.VenusSms;
+import com.jfeat.sms.sdk.vendor.venus.VenusSmsConfig;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.After;
@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class TestSms {
 
-    private Logger logger = LoggerFactory.getLogger(TestHttpKit.class);
+    private Logger logger = LoggerFactory.getLogger(TestSms.class);
     private MockWebServer server;
     private int port = 9999;
     private String baseUrl = "http://127.0.0.1:" + port;
@@ -45,16 +45,26 @@ public class TestSms {
         }
     }
 
+    @Ignore
     @Test
-    public void testVanusSms() {
+    public void testVenusSms() {
         server.enqueue(new MockResponse().setResponseCode(200));
 
-        VanusSmsConfig config = new VanusSmsConfig();
-        config.setAccount("account1");
-        config.setPassword("pwd1");
-        config.setUrl(baseUrl + "/vanusSms");
-        config.setUserId("user1");
-        Sms sms = new VanusSms(config);
+        VenusSmsConfig config = new VenusSmsConfig();
+        config.setAccount("895883631");
+        config.setPassword("895883631");
+        config.setUrl("http://zzsms365.com/sms.aspx");
+        config.setUserId("3371");
+        List<SmsTemplate> templates = new ArrayList<>();
+        SmsTemplate template = new SmsTemplate();
+        template.setOperation("register");
+        template.setTemplateCode("dummy");
+        template.setTemplateParam("{\"code\": \"%s\"}");
+        template.setSignName("dummy");
+        template.setTemplateContent("Your code is {code}, valid in 2 minutes.");
+        templates.add(template);
+        config.setTemplates(templates);
+        Sms sms = new VenusSms(config);
 
         sms.sendCaptcha("13800000000", "register");
         String code = MemoryStore.me().read("13800000000-register");
@@ -62,19 +72,29 @@ public class TestSms {
         assertNotNull(code);
     }
 
+    @Ignore
     @Test
-    public void testVanusSmsFactory() {
+    public void testVenusSmsFactory() {
         server.enqueue(new MockResponse().setResponseCode(200));
 
-        Map<String, Object> configMap = new HashMap<>();
-        configMap.put("account", "account1");
-        configMap.put("password", "pwd1");
-        configMap.put("userId", "uid");
-        configMap.put("url", baseUrl + "/vanusSms");
-        Sms sms = SmsFactory.me().getSms("vanus", configMap);
+        JSONObject configMap = new JSONObject();
+        configMap.put("account", "895883631");
+        configMap.put("password", "895883631");
+        configMap.put("userId", "3371");
+        configMap.put("url", "http://zzsms365.com/sms.aspx");
+        List<SmsTemplate> templates = new ArrayList<>();
+        SmsTemplate template = new SmsTemplate();
+        template.setOperation("register");
+        template.setTemplateCode("dummy");
+        template.setTemplateParam("{\"code\": \"%s\"}");
+        template.setSignName("dummy");
+        template.setTemplateContent("Your code is {code}, valid in 2 minutes.");
+        templates.add(template);
+        configMap.put("templates", templates);
+        Sms sms = SmsFactory.me().getSms("venus", configMap);
 
-        sms.sendCaptcha("13800000000", "Register");
-        String code = MemoryStore.me().read("13800000000-Register");
+        sms.sendCaptcha("13800000000", "register");
+        String code = MemoryStore.me().read("13800000000-register");
         logger.debug("code=" + code);
         assertNotNull(code);
     }
@@ -84,7 +104,7 @@ public class TestSms {
     public void testAliyunSmsFactory() {
         server.enqueue(new MockResponse().setResponseCode(200));
 
-        Map<String, Object> configMap = new HashMap<>();
+        JSONObject configMap = new JSONObject();
         configMap.put("accessKeyId", "account1");
         configMap.put("accessSecret", "pwd1");
         configMap.put("captchaCount", "8");
@@ -109,13 +129,13 @@ public class TestSms {
         server.enqueue(new MockResponse().setResponseCode(200));
 
         AliyunSmsConfig config = new AliyunSmsConfig();
-        config.setAccessKeyId("accesskey");
-        config.setAccessSecret("accesssecret");
+        config.setAccessKeyId("LTAIfYAV2iAxd7ig");
+        config.setAccessSecret("Bp8mz9h7KGJ4MVcrK0pBR1sdDrwRJr");
         SmsTemplate template = new SmsTemplate();
         template.setOperation("register");
-        template.setSignName("SignName");
-        template.setTemplateCode("TempCode");
-        template.setTemplateParam("");
+        template.setSignName("SmallSaaS");
+        template.setTemplateCode("SMS_138535098");
+        template.setTemplateParam("{\"code\": \"%s\"}");
         List<SmsTemplate> templates = new ArrayList<>();
         templates.add(template);
         config.setTemplates(templates);

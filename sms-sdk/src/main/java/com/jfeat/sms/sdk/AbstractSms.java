@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
+
 
 /**
  * @author jackyhuang
@@ -33,7 +35,7 @@ public abstract class AbstractSms implements Sms {
     }
 
     public SmsConfig getConfig() {
-        return this.config;
+        return config;
     }
 
     public void setConfig(SmsConfig config) {
@@ -41,7 +43,7 @@ public abstract class AbstractSms implements Sms {
     }
 
     public Store getStore() {
-        return this.store;
+        return store;
     }
 
     public void setStore(Store store) {
@@ -50,30 +52,49 @@ public abstract class AbstractSms implements Sms {
 
     @Override
     public void sendCaptcha(String phone, String operation) {
-        sendCaptcha(phone, operation, this.generateCaptcha());
+        sendCaptcha(phone, operation, generateCaptcha());
     }
 
     @Override
     public void sendCaptcha(String phone, String operation, String code) {
         logger.debug("sendCaptcha: phone={}, operation={}, code={}", phone, operation, code);
-        int ttl = this.config.getCaptchaTtlSeconds();
-        this.store.save(getKey(phone, operation), code, ttl);
-        String message = StringUtils.isEmpty(this.config.getCaptchaTemplate()) ?
-                code : String.format(this.config.getCaptchaTemplate(), code);
-        sendMessage(phone, operation, message);
+        int ttl = config.getCaptchaTtlSeconds();
+        store.save(getKey(phone, operation), code, ttl);
+        sendMessage(phone, code, getTemplate(operation));
     }
 
     @Override
     public boolean verifyCaptcha(String phone, String operation, String code) {
         logger.debug("verifyCaptcha: phone={}, operation={}, code={}", phone, operation, code);
-        String storedCode = this.store.read(getKey(phone, operation));
+        String storedCode = store.read(getKey(phone, operation));
         if (StringUtils.compare(storedCode, code) == 0) {
             logger.debug("verify passed.");
-            this.store.delete(getKey(phone, operation));
+            store.delete(getKey(phone, operation));
             return true;
         }
         logger.debug("verify failed.");
         return false;
+    }
+
+    protected abstract void sendMessage(String phone, String code, SmsTemplate template);
+
+    protected String formatTemplateParam(SmsTemplate template, String code) {
+        if (template.getTemplateParam() != null) {
+            return String.format(template.getTemplateParam(), code);
+        }
+        return code;
+    }
+
+    private SmsTemplate getTemplate(String operation) {
+        Optional<SmsTemplate> templateOpt = config.getTemplates().stream()
+                .filter(x -> x.getOperation().equalsIgnoreCase(operation))
+                .findFirst();
+        if (!templateOpt.isPresent()) {
+            logger.warn("template not found for operation {}", operation);
+            throw new SmsException("Template not found");
+        }
+
+        return templateOpt.get();
     }
 
     private String getKey(String phone, String operation) {

@@ -1,12 +1,15 @@
 package com.jfeat.sms.endpoint;
 
 import com.jfeat.sms.sdk.Sms;
-import com.jfeat.sms.sdk.vendor.vanus.VanusSms;
-import com.jfeat.sms.sdk.vendor.vanus.VanusSmsConfig;
+import com.jfeat.sms.sdk.SmsTemplate;
+import com.jfeat.sms.sdk.vendor.venus.VenusSms;
+import com.jfeat.sms.sdk.vendor.venus.VenusSmsConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,12 +23,21 @@ public class SmsController {
 
     private Sms getSms() {
         // TODO read from configservice
-        VanusSmsConfig config = new VanusSmsConfig();
+        VenusSmsConfig config = new VenusSmsConfig();
         config.setAccount("account1");
         config.setPassword("pwd1");
         config.setUrl("http://127.0.0.1:8080/vanusSms");
         config.setUserId("user1");
-        return new VanusSms(config);
+        List<SmsTemplate> templates = new ArrayList<>();
+        SmsTemplate template = new SmsTemplate();
+        template.setOperation("register");
+        template.setTemplateCode("dummy");
+        template.setTemplateParam("{\"code\": \"%s\"}");
+        template.setSignName("dummy");
+        template.setTemplateContent("Your code is {code}, valid in 2 minutes.");
+        templates.add(template);
+        config.setTemplates(templates);
+        return new VenusSms(config);
     }
 
     @PostMapping("/api/sms/v1/captcha")
