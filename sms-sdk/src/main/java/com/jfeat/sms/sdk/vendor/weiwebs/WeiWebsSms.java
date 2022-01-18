@@ -1,4 +1,4 @@
-package com.jfeat.sms.sdk.weiwebs.venus;
+package com.jfeat.sms.sdk.vendor.weiwebs;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfeat.sms.sdk.AbstractSms;

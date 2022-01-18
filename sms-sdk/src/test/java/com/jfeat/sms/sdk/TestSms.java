@@ -4,10 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfeat.code.store.MemoryStore;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSms;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSmsConfig;
-import com.jfeat.sms.sdk.vendor.venus.VenusSms;
-import com.jfeat.sms.sdk.vendor.venus.VenusSmsConfig;
-import com.jfeat.sms.sdk.weiwebs.venus.WeiWebsSms;
-import com.jfeat.sms.sdk.weiwebs.venus.WeiWebsSmsConfig;
+import com.jfeat.sms.sdk.vendor.weiwebs.WeiWebsSms;
+import com.jfeat.sms.sdk.vendor.weiwebs.WeiWebsSmsConfig;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.After;
@@ -47,6 +45,7 @@ public class TestSms {
         }
     }
 
+    @Ignore
     @Test
     public void testVenusSms() {
         server.enqueue(new MockResponse().setResponseCode(200));
