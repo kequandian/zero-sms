@@ -20,9 +20,9 @@ import com.jfeat.sms.sdk.SmsConfig;
 public class VenusSmsConfig extends SmsConfig {
 
     private String url;
-    private String userId;
+//    private String userId;
     private String account;
-    private String password;
+    private String pswd;
 
     public String getUrl() {
         return url;
@@ -32,13 +32,13 @@ public class VenusSmsConfig extends SmsConfig {
         this.url = url;
     }
 
-    public String getUserId() {
-        return userId;
-    }
+//    public String getUserId() {
+//        return userId;
+//    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+//    public void setUserId(String userId) {
+//        this.userId = userId;
+//    }
 
     public String getAccount() {
         return account;
@@ -48,11 +48,11 @@ public class VenusSmsConfig extends SmsConfig {
         this.account = account;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPswd() {
+        return pswd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPswd(String pswd) {
+        this.pswd = pswd;
     }
 }

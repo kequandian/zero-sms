@@ -45,29 +45,28 @@ public class TestSms {
         }
     }
 
-    @Ignore
     @Test
     public void testVenusSms() {
         server.enqueue(new MockResponse().setResponseCode(200));
 
         VenusSmsConfig config = new VenusSmsConfig();
-        config.setAccount("895883631");
-        config.setPassword("895883631");
-        config.setUrl("http://zzsms365.com/sms.aspx");
-        config.setUserId("3371");
+        config.setAccount("MXT801633");
+        config.setPswd("Mxt801636");
+        config.setUrl("http://www.weiwebs.cn/msg/HttpBatchSendSM");
+//        config.setUserId("3371");
         List<SmsTemplate> templates = new ArrayList<>();
         SmsTemplate template = new SmsTemplate();
-        template.setOperation("register");
-        template.setTemplateCode("dummy");
+        template.setOperation("login");
+//        template.setTemplateCode("dummy");
         template.setTemplateParam("{\"code\": \"%s\"}");
-        template.setSignName("dummy");
-        template.setTemplateContent("Your code is {code}, valid in 2 minutes.");
+//        template.setSignName("dummy");
+        template.setTemplateContent("【元咕咕】您的短信验证码是：{code}，2分钟内有效");
         templates.add(template);
         config.setTemplates(templates);
         Sms sms = new VenusSms(config);
 
-        sms.sendCaptcha("13800000000", "register");
-        String code = MemoryStore.me().read("13800000000-register");
+        sms.sendCaptcha("15322315902", "login");
+        String code = MemoryStore.me().read("15322315902-login");
         logger.debug("code=" + code);
         assertNotNull(code);
     }
