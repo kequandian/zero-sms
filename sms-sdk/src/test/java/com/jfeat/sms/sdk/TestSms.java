@@ -6,6 +6,8 @@ import com.jfeat.sms.sdk.vendor.aliyun.AliyunSms;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSmsConfig;
 import com.jfeat.sms.sdk.vendor.venus.VenusSms;
 import com.jfeat.sms.sdk.vendor.venus.VenusSmsConfig;
+import com.jfeat.sms.sdk.weiwebs.venus.WeiWebsSms;
+import com.jfeat.sms.sdk.weiwebs.venus.WeiWebsSmsConfig;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.After;
@@ -49,7 +51,7 @@ public class TestSms {
     public void testVenusSms() {
         server.enqueue(new MockResponse().setResponseCode(200));
 
-        VenusSmsConfig config = new VenusSmsConfig();
+        WeiWebsSmsConfig config = new WeiWebsSmsConfig();
         config.setAccount("MXT801633");
         config.setPswd("Mxt801636");
         config.setUrl("http://www.weiwebs.cn/msg/HttpBatchSendSM");
@@ -63,7 +65,7 @@ public class TestSms {
         template.setTemplateContent("【元咕咕】您的短信验证码是：{code}，2分钟内有效");
         templates.add(template);
         config.setTemplates(templates);
-        Sms sms = new VenusSms(config);
+        Sms sms = new WeiWebsSms(config);
 
         sms.sendCaptcha("15322315902", "login");
         String code = MemoryStore.me().read("15322315902-login");

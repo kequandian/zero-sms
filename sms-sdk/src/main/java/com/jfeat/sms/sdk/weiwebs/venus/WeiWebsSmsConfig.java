@@ -1,4 +1,4 @@
-package com.jfeat.sms.sdk.vendor.venus;
+package com.jfeat.sms.sdk.weiwebs.venus;
 
 import com.jfeat.sms.sdk.SmsConfig;
 
@@ -17,10 +17,10 @@ import com.jfeat.sms.sdk.SmsConfig;
  * @author jackyhuang
  * @date 2021/12/23
  */
-public class VenusSmsConfig extends SmsConfig {
+public class WeiWebsSmsConfig extends SmsConfig {
 
     private String url;
-    private String userId;
+//    private String userId;
     private String account;
     private String pswd;
 
@@ -32,13 +32,13 @@ public class VenusSmsConfig extends SmsConfig {
         this.url = url;
     }
 
-    public String getUserId() {
-        return userId;
-    }
+//    public String getUserId() {
+//        return userId;
+//    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+//    public void setUserId(String userId) {
+//        this.userId = userId;
+//    }
 
     public String getAccount() {
         return account;

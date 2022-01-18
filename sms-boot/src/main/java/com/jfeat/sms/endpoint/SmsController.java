@@ -25,7 +25,7 @@ public class SmsController {
         // TODO read from configservice
         VenusSmsConfig config = new VenusSmsConfig();
         config.setAccount("account1");
-        config.setPassword("pwd1");
+        config.setPswd("pwd1");
         config.setUrl("http://127.0.0.1:8080/vanusSms");
         config.setUserId("user1");
         List<SmsTemplate> templates = new ArrayList<>();
