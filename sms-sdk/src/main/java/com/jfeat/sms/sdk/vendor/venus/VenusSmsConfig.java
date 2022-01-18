@@ -22,7 +22,7 @@ public class VenusSmsConfig extends SmsConfig {
     private String url;
     private String userId;
     private String account;
-    private String pswd;
+    private String password;
 
     public String getUrl() {
         return url;
@@ -48,11 +48,11 @@ public class VenusSmsConfig extends SmsConfig {
         this.account = account;
     }
 
-    public String getPswd() {
-        return pswd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPswd(String pswd) {
-        this.pswd = pswd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

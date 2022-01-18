@@ -32,7 +32,7 @@ public class VenusSms extends AbstractSms {
         params.add(new RequestParameter("action", action));
         params.add(new RequestParameter("userid", config.getUserId()));
         params.add(new RequestParameter("account", config.getAccount()));
-        params.add(new RequestParameter("pswd", config.getPswd()));
+        params.add(new RequestParameter("password", config.getPassword()));
         params.add(new RequestParameter("mobile", phone));
         params.add(new RequestParameter("content", getContent(template, code)));
         String result = new HttpKit().url(config.getUrl())
