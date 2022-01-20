@@ -1,15 +1,10 @@
 package com.jfeat.sms.sdk;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSms;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSmsConfig;
 import com.jfeat.sms.sdk.vendor.venus.VenusSms;
 import com.jfeat.sms.sdk.vendor.venus.VenusSmsConfig;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author jackyhuang

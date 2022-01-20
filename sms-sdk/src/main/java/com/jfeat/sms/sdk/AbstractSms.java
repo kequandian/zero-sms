@@ -60,6 +60,9 @@ public abstract class AbstractSms implements Sms {
         logger.debug("sendCaptcha: phone={}, operation={}, code={}", phone, operation, code);
         int ttl = config.getCaptchaTtlSeconds();
         store.save(getKey(phone, operation), code, ttl);
+        if(config.getDebugMode()!=null && config.getDebugMode()==1) {
+            return;
+        }
         sendMessage(phone, code, getTemplate(operation));
     }
 

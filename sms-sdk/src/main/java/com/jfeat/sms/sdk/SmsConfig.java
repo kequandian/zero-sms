@@ -17,6 +17,11 @@ public abstract class SmsConfig {
     private List<SmsTemplate> templates = new ArrayList<>();
 
     /**
+     * 调试模式, 只打印，不发送
+     */
+    private int debugMode = 0;
+
+    /**
      * 随机验证码的长度，默认4位
      */
     private int captchaCount = 4;
@@ -47,5 +52,13 @@ public abstract class SmsConfig {
 
     public void setCaptchaTtlSeconds(int captchaTtlSeconds) {
         this.captchaTtlSeconds = captchaTtlSeconds;
+    }
+
+    public Integer getDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(int debugMode) {
+        this.debugMode = debugMode;
     }
 }
