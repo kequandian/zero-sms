@@ -1,4 +1,4 @@
-package com.jfeat.sms.sdk.vendor.venus;
+package com.jfeat.sms.sdk.vendor.weiwebs;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfeat.sms.sdk.AbstractSms;
@@ -14,13 +14,15 @@ import java.util.Map;
  * @author jackyhuang
  * @date 2021/12/23
  */
-public class VenusSms extends AbstractSms {
+public class WeiWebsSms extends AbstractSms {
 
-    private VenusSmsConfig config;
+    private WeiWebsSmsConfig config;
 
-    private String action = "send";
+//    private String action = "send";
 
-    public VenusSms(VenusSmsConfig config) {
+    private String needstatus = "false";
+
+    public WeiWebsSms(WeiWebsSmsConfig config) {
         super(config);
         this.config = config;
     }
@@ -29,12 +31,12 @@ public class VenusSms extends AbstractSms {
     public void sendMessage(String phone, String code, SmsTemplate template) {
         logger.debug("sendMessage: phone={}, code={}", phone, code);
         List<RequestParameter> params = new ArrayList<>();
-        params.add(new RequestParameter("action", action));
-        params.add(new RequestParameter("userid", config.getUserId()));
+        params.add(new RequestParameter("needstatus", needstatus));
+//        params.add(new RequestParameter("userid", config.getUserId()));
         params.add(new RequestParameter("account", config.getAccount()));
-        params.add(new RequestParameter("password", config.getPassword()));
+        params.add(new RequestParameter("pswd", config.getPswd()));
         params.add(new RequestParameter("mobile", phone));
-        params.add(new RequestParameter("content", getContent(template, code)));
+        params.add(new RequestParameter("msg",getContent(template,code)));
         String result = new HttpKit().url(config.getUrl())
                 .postForm(params)
                 .exec();

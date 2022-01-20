@@ -5,6 +5,8 @@ import com.jfeat.sms.sdk.vendor.aliyun.AliyunSms;
 import com.jfeat.sms.sdk.vendor.aliyun.AliyunSmsConfig;
 import com.jfeat.sms.sdk.vendor.venus.VenusSms;
 import com.jfeat.sms.sdk.vendor.venus.VenusSmsConfig;
+import com.jfeat.sms.sdk.vendor.weiwebs.WeiWebsSms;
+import com.jfeat.sms.sdk.vendor.weiwebs.WeiWebsSmsConfig;
 
 /**
  * @author jackyhuang
@@ -22,8 +24,8 @@ public class SmsFactory {
 
     public Sms getSms(String vendor, JSONObject configMap) {
         //TODO get redis config and new RedisStore
-        if ("venus".equalsIgnoreCase(vendor)) {
-            return new VenusSms(configMap.toJavaObject(VenusSmsConfig.class));
+        if ("weiwebs".equalsIgnoreCase(vendor)) {
+            return new WeiWebsSms(configMap.toJavaObject(WeiWebsSmsConfig.class));
         }
         if ("aliyun".equalsIgnoreCase(vendor)) {
             return new AliyunSms(configMap.toJavaObject(AliyunSmsConfig.class));
