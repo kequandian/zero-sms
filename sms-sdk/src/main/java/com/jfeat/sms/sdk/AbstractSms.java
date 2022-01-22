@@ -85,7 +85,7 @@ public abstract class AbstractSms implements Sms {
         if (template.getTemplateParam() != null) {
             return String.format(template.getTemplateParam(), code);
         }
-        return code;
+        return "";
     }
 
     private SmsTemplate getTemplate(String operation) {

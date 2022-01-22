@@ -48,10 +48,14 @@ public class WeiWebsSms extends AbstractSms {
         // Your code is {code}, valid in 2 minutes.
         String templateContent = template.getTemplateContent();
         // {"code": "%s"} => {"code": "123456"}
-        JSONObject jsonObject = JSONObject.parseObject(formatTemplateParam(template, code));
-        for (Map.Entry entry : jsonObject.entrySet()) {
-            String value = (String) entry.getValue();
-            templateContent = templateContent.replace("{" + entry.getKey() + "}", value);
+
+        String paramString = formatTemplateParam(template, code);
+        if(paramString.length()>0){
+            JSONObject jsonObject = JSONObject.parseObject(paramString);
+            for (Map.Entry entry : jsonObject.entrySet()) {
+                String value = (String) entry.getValue();
+                templateContent = templateContent.replace("{" + entry.getKey() + "}", value);
+            }
         }
         return templateContent;
     }
