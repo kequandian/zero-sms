@@ -29,7 +29,7 @@ public class WeiWebsSms extends AbstractSms {
 
     @Override
     public void sendMessage(String phone, String code, SmsTemplate template) {
-        logger.debug("sendMessage: phone={}, code={}", phone, code);
+        logger.info("sms-sdk: send msg: phone={}, code={}", phone, code);
         List<RequestParameter> params = new ArrayList<>();
         params.add(new RequestParameter("needstatus", needstatus));
 //        params.add(new RequestParameter("userid", config.getUserId()));
@@ -40,8 +40,7 @@ public class WeiWebsSms extends AbstractSms {
         String result = new HttpKit().url(config.getUrl())
                 .postForm(params)
                 .exec();
-        //TODO handle the result
-        logger.debug("result: {}", result);
+        logger.info("sms-sdk: send msg http result: {}", result);
     }
 
     private String getContent(SmsTemplate template, String code) {

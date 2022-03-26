@@ -48,7 +48,7 @@ public class AliyunSms extends AbstractSms {
      */
     @Override
     public void sendMessage(String phone, String code, SmsTemplate template) {
-        logger.debug("sendMessage: phone={}, code={}", phone, code);
+        logger.info("sms-sdk: send msg: phone={}, code={}", phone, code);
         DefaultProfile profile = DefaultProfile.getProfile(regionId, config.getAccessKeyId(), config.getAccessSecret());
         IAcsClient client = new DefaultAcsClient(profile);
 
@@ -63,7 +63,7 @@ public class AliyunSms extends AbstractSms {
         request.putQueryParameter("TemplateParam", formatTemplateParam(template, code));
         try {
             CommonResponse response = client.getCommonResponse(request);
-            logger.debug("response: {}", response.getData());
+            logger.info("sms-sdk: http response: {}", response.getData());
         } catch (ClientException e) {
             logger.error(e.getMessage());
         }
