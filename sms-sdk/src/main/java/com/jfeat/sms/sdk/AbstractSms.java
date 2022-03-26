@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Optional;
 
 
@@ -16,6 +18,8 @@ import java.util.Optional;
  */
 public abstract class AbstractSms implements Sms {
     protected Logger logger = LoggerFactory.getLogger(AbstractSms.class);
+    protected HashMap<String, Date> hashMap = new HashMap<>();
+    protected int interval;
 
     private SmsConfig config;
     private Store store;
@@ -79,7 +83,22 @@ public abstract class AbstractSms implements Sms {
         return false;
     }
 
-    protected abstract void sendMessage(String phone, String code, SmsTemplate template);
+    protected abstract HashMap<String,Date> sendMessage(String phone, String code, SmsTemplate template);
+
+    protected boolean checkSendMessageInterval(String phone, String code, int interval)
+    {
+        this.interval = interval;
+        Date dateEnd = new Date();
+        HashMap<String,Date> hashMap1 = new HashMap<>();
+        hashMap1.put(phone+code,dateEnd);
+        if(this.hashMap.containsKey(phone+code))
+        {
+            if(this.hashMap.get(phone+code).getTime()-hashMap1.get(phone+code).getTime()>=(this.interval*1000))
+                return true;
+            else return false;
+        }
+        else return false;
+    }
 
     protected String formatTemplateParam(SmsTemplate template, String code) {
         if (template.getTemplateParam() != null) {

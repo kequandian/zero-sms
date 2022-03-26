@@ -11,6 +11,8 @@ import com.jfeat.sms.sdk.AbstractSms;
 import com.jfeat.sms.sdk.SmsException;
 import com.jfeat.sms.sdk.SmsTemplate;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Optional;
 
 /**
@@ -47,8 +49,8 @@ public class AliyunSms extends AbstractSms {
      * @param template 短信模版
      */
     @Override
-    public void sendMessage(String phone, String code, SmsTemplate template) {
-        logger.debug("sendMessage: phone={}, code={}", phone, code);
+    public HashMap<String,Date> sendMessage(String phone, String code, SmsTemplate template) {
+        logger.info("sms-sdk: send msg: phone={}, code={}", phone, code);
         DefaultProfile profile = DefaultProfile.getProfile(regionId, config.getAccessKeyId(), config.getAccessSecret());
         IAcsClient client = new DefaultAcsClient(profile);
 
@@ -63,10 +65,12 @@ public class AliyunSms extends AbstractSms {
         request.putQueryParameter("TemplateParam", formatTemplateParam(template, code));
         try {
             CommonResponse response = client.getCommonResponse(request);
-            logger.debug("response: {}", response.getData());
+            logger.info("sms-sdk: http response: {}", response.getData());
         } catch (ClientException e) {
             logger.error(e.getMessage());
         }
+        this.hashMap.put(phone+code,new Date());
+        return this.hashMap;
     }
 
 
