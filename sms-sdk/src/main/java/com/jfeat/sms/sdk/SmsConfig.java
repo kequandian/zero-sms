@@ -66,9 +66,11 @@ public abstract class SmsConfig {
     public void setDebugMode(int debugMode) {
         this.debugMode = debugMode;
     }
+
     public int getSendMessageInterval(){
         return this.sendMessageInterval;
     }
+
     public void setSendMessageInterval(int interval){
         this.sendMessageInterval = interval;
     }

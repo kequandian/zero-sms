@@ -12,6 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SmsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SmsApplication.class, args);
+        SpringApplication.run(com.jfeat.sms.SmsApplication.class, args);
     }
 }

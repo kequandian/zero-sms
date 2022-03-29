@@ -89,8 +89,7 @@ public abstract class AbstractSms implements Sms {
         Date now = new Date();
         int interval = config.getSendMessageInterval();
         String key = phone+code;
-        if(this.sendMessageHashMap.containsKey(key))
-        {
+        if(this.sendMessageHashMap.containsKey(key)) {
             if(now.getTime()-this.sendMessageHashMap.get(key).getTime()>=(interval*1000)) {
                 this.sendMessageHashMap.put(key,now);
                 return true;
