@@ -1,25 +1,40 @@
-################### sms config ##################
+################### sms config sample ##################
 io:
   sms:
-    environment: dev  # ["dev","development","prod","production"]: default prod
+    # environement: dev  #dev: not send real message, only log [dev, development, prod, production]
+    enableVendor: weiwebs
     captchaRequiredOperations:
       - login
-      #- register
-    enableVendor: vanus
+      - register
+      - findPassword
+      - changeAccount
+      - matchSucceed
+      - successful
     vendors:
-      venus:
+      weiwebs:
+        debugMode: 1  # not send message to cell phone
         captchaCount: 5
         captchaTtlSeconds: 120
         templates:
           - operation: login
-            signName: 'venus not use this field'
-            templateContent: 'Your code is {code}, valid in 2 minutes.'
+            templateContent: '【元咕咕】您的短信验证码是：{code}，2分钟内有效'
             templateParam: '{"code": "%s"}'
-            templateCode: 'venus not use this field'
-        account: account1
-        password: password1
-        userId: userid1
-        url: http://127.0.0.1:8080/dummyVanusSms
+          - operation: register
+            templateContent: '【元咕咕】您的短信验证码是：{code}，2分钟内有效'
+            templateParam: '{"code": "%s"}'
+          - operation: findPassword
+            templateContent: '【元咕咕】您的短信验证码是：{code}，2分钟内有效'
+            templateParam: '{"code": "%s"}'
+          - operation: changeAccount
+            templateContent: '【元咕咕】您正在修改信息，短信验证码是：{code}，2分钟内有效'
+            templateParam: '{"code": "%s"}'
+          - operation: matchSucceed
+            templateContent: '【元咕咕】恭喜您匹配成功，请在2小时内登录进行处理'
+          - operation: successful
+            templateContent: '【元咕咕】恭喜您对方已经完成处理，请您即刻登录核实'
+        account: MXT801633
+        pswd: Mxt801636
+        url: http://www.weiwebs.cn/msg/HttpBatchSendSM
       aliyun:
         captchaCount: 5
         captchaTtlSeconds: 120
@@ -31,3 +46,4 @@ io:
             templateCode: T1
         accessKeyId: keyid
         accessSecret: secret
+        

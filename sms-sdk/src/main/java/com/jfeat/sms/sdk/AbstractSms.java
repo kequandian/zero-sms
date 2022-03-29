@@ -84,23 +84,22 @@ public abstract class AbstractSms implements Sms {
 
     protected abstract void sendMessage(String phone, String code, SmsTemplate template);
 
-    protected boolean checkSendMessageInterval(String phone, String code)
-    {
-        Date now = new Date();
+    protected boolean checkSendMessageInterval(String phone, String code){
         int interval = config.getSendMessageInterval();
-        String key = phone+code;
-        if(this.sendMessageHashMap.containsKey(key))
-        {
-            if(now.getTime()-this.sendMessageHashMap.get(key).getTime()>=(interval*1000)) {
-                this.sendMessageHashMap.put(key,now);
-                return true;
-            }
-            else return false;
-        }
-        else {
-            this.sendMessageHashMap.put(key,now);
+        if(interval==0){
             return true;
         }
+
+        Date now = new Date();
+        String key = phone+code;
+        if(this.sendMessageHashMap.containsKey(key)){
+            if(now.getTime()-this.sendMessageHashMap.get(key).getTime()<(interval*1000)) {
+                return false;
+            }
+        }
+
+        this.sendMessageHashMap.put(key,now);
+        return true;
     }
 
     protected String formatTemplateParam(SmsTemplate template, String code) {
