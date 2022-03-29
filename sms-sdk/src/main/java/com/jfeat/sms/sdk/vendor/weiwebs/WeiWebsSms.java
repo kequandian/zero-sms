@@ -26,7 +26,8 @@ public class WeiWebsSms extends AbstractSms {
     }
 
     @Override
-    public HashMap<String,Date> sendMessage(String phone, String code, SmsTemplate template) {
+    public void sendMessage(String phone, String code, SmsTemplate template) {
+        if(!checkSendMessageInterval(phone,code))return;
         logger.info("sms-sdk: send msg: phone={}, code={}", phone, code);
         List<RequestParameter> params = new ArrayList<>();
         params.add(new RequestParameter("needstatus", needstatus));
@@ -39,8 +40,6 @@ public class WeiWebsSms extends AbstractSms {
                 .postForm(params)
                 .exec();
         logger.info("sms-sdk: send msg http result: {}", result);
-        this.hashMap.put(phone+code,new Date());
-        return this.hashMap;
     }
 
     private String getContent(SmsTemplate template, String code) {

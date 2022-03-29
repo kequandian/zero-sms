@@ -30,6 +30,11 @@ public abstract class SmsConfig {
      */
     private int captchaTtlSeconds = 60;
 
+    private int sendMessageInterval = 0;
+    /*
+    *  短信发送时间间隔，默认为0
+     */
+
     public List<SmsTemplate> getTemplates() {
         return templates;
     }
@@ -60,5 +65,11 @@ public abstract class SmsConfig {
 
     public void setDebugMode(int debugMode) {
         this.debugMode = debugMode;
+    }
+    public int getSendMessageInterval(){
+        return this.sendMessageInterval;
+    }
+    public void setSendMessageInterval(int interval){
+        this.sendMessageInterval = interval;
     }
 }

@@ -18,8 +18,7 @@ import java.util.Optional;
  */
 public abstract class AbstractSms implements Sms {
     protected Logger logger = LoggerFactory.getLogger(AbstractSms.class);
-    protected HashMap<String, Date> hashMap = new HashMap<>();
-    protected int interval;
+    protected HashMap<String, Date> sendMessageHashMap = new HashMap<>();
 
     private SmsConfig config;
     private Store store;
@@ -83,21 +82,25 @@ public abstract class AbstractSms implements Sms {
         return false;
     }
 
-    protected abstract HashMap<String,Date> sendMessage(String phone, String code, SmsTemplate template);
+    protected abstract void sendMessage(String phone, String code, SmsTemplate template);
 
-    protected boolean checkSendMessageInterval(String phone, String code, int interval)
+    protected boolean checkSendMessageInterval(String phone, String code)
     {
-        this.interval = interval;
-        Date dateEnd = new Date();
-        HashMap<String,Date> hashMap1 = new HashMap<>();
-        hashMap1.put(phone+code,dateEnd);
-        if(this.hashMap.containsKey(phone+code))
+        Date now = new Date();
+        int interval = config.getSendMessageInterval();
+        String key = phone+code;
+        if(this.sendMessageHashMap.containsKey(key))
         {
-            if(this.hashMap.get(phone+code).getTime()-hashMap1.get(phone+code).getTime()>=(this.interval*1000))
+            if(now.getTime()-this.sendMessageHashMap.get(key).getTime()>=(interval*1000)) {
+                this.sendMessageHashMap.put(key,now);
                 return true;
+            }
             else return false;
         }
-        else return false;
+        else {
+            this.sendMessageHashMap.put(key,now);
+            return true;
+        }
     }
 
     protected String formatTemplateParam(SmsTemplate template, String code) {

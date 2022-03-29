@@ -49,7 +49,8 @@ public class AliyunSms extends AbstractSms {
      * @param template 短信模版
      */
     @Override
-    public HashMap<String,Date> sendMessage(String phone, String code, SmsTemplate template) {
+    public void sendMessage(String phone, String code, SmsTemplate template) {
+        if(!checkSendMessageInterval(phone,code))return;
         logger.info("sms-sdk: send msg: phone={}, code={}", phone, code);
         DefaultProfile profile = DefaultProfile.getProfile(regionId, config.getAccessKeyId(), config.getAccessSecret());
         IAcsClient client = new DefaultAcsClient(profile);
@@ -69,8 +70,6 @@ public class AliyunSms extends AbstractSms {
         } catch (ClientException e) {
             logger.error(e.getMessage());
         }
-        this.hashMap.put(phone+code,new Date());
-        return this.hashMap;
     }
 
 
