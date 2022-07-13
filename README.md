@@ -30,23 +30,35 @@ sms.sendCaptcha("1380000000", "register");
 ```
 
 ```yaml
-
 io:
   sms:
     environment: dev  # ["dev","development","prod","production"]: default prod
     captchaRequiredOperations:
       - login
-      #- register
-    enableVendor: vanus
+      - register
+      - findPassword
+    enableVendor: weiwebs
+    registeredTestPhones:
+      - 180123456
+      - 180123458
     vendors:
-      vanus:
-        account: account1
-        password: password1
-        userId: userid1
-        url: http://127.0.0.1:8080/dummyVanusSms
-        captchaTemplate: code is %s, valid in 2 minutes.
+      weiwebs:
+        debugMode: 1
         captchaCount: 5
         captchaTtlSeconds: 120
+        templates:
+          - operation: login
+            templateContent: '【元咕咕】您的短信验证码是：{code}，2分钟内有效'
+            templateParam: '{"code": "%s"}'
+          - operation: register
+            templateContent: '【元咕咕】您的短信验证码是：{code}，2分钟内有效'
+            templateParam: '{"code": "%s"}'
+          - operation: findPassword
+            templateContent: '【元咕咕】您的短信验证码是：{code}，2分钟内有效'
+            templateParam: '{"code": "%s"}'
+        account: MXT801633
+        pswd: Mxt801636
+        url: http://www.weiwebs.cn/msg/HttpBatchSendSM
       aliyun:
         accessKeyId: keyid
         accessSecret: secret
