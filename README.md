@@ -41,7 +41,7 @@ io:
     registeredTestPhones:
       - 180123456
       - 180123458
-    passedValidateCode: 010101
+    registeredPassingCode: 010101
     vendors:
       weiwebs:
         debugMode: 1
