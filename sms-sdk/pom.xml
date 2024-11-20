@@ -148,7 +148,23 @@
             <scope>compile</scope>
         </dependency>
 
-
     </dependencies>
+
+
+    <distributionManagement>
+        <repository>
+            <id>archiva-internal</id>
+            <name>Internal Repository</name>
+            <url>http://202.63.172.43:8081/repository/internal</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>archiva-internal</id>
+            <name>Internal Repository</name>
+            <url>http://202.63.172.43:8081/repository/internal</url>
+        </repository>
+    </repositories>
 
 </project>
